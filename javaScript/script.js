@@ -1,77 +1,53 @@
-let img = document.getElementById('img0')
-let name = document.getElementById('name0')
-let description = document.getElementById('description0')
-let price = document.getElementById('price0')
-let idd = document.querySelector('link0')
-// let i = [];
+let imageUrl = [];
+let name = [];
+let description = [];
+let price = [];
+let _id = [];
+let structureProduits = "";
+let i = []; 
 
+const resultatApi =  fetch ('http://localhost:3000/api/teddies');
 
-// function affichageProduits(data){
-//     const positionElements = document.querySelector('.container-produits')
-    
-//     data.forEach(element,i) => {
-//         name[i] = element.name
-//     });
-    
-//     console.log(positionElements)
-// }
-// affichageProduits();
-// console.log('affichageProduits')
+        resultatApi.then(responseData)=>{    
+            const response = await responseData.json();
+            
 
-fetch ('http://localhost:3000/api/teddies')
-    .then (res=> res.json())
-    .then (data=> {          
-        name0.textContent = data[0].name ;
-        img0.src = data[0].imageUrl;
-        description0.textContent = data[0].description
-        price0.textContent = data[0].price
+                function affichageProduits(response) {
+                    const positionElement = document.querySelector("#section");
+                    // console.log(response);
 
-      }) 
+                        for (i=0;i < response.length; i++){
 
-fetch ('http://localhost:3000/api/teddies')
-    .then ( res=> res.json())
-    .then (data=> { 
-        name1.textContent = data[1].name ;
-        img1.src = data[1].imageUrl;
-        description1.textContent = data[1].description
-        price1.textContent = data[1].price
-    })
+                            response.forEach((element,i) => {
+                                name[i] = element.name ;
+                                description[i] = element.description ;
+                                imageUrl[i] = element.imageUrl ;
+                                price[i] = element.price ;
+                                _id[i] = element._id ;                            
+                            });
 
-fetch ('http://localhost:3000/api/teddies')
-    .then ( res=> res.json())
-    .then (data=> { 
-        name2.textContent = data[2].name ;
-        img2.src = data[2].imageUrl;
-        description2.textContent = data[2].description
-        price2.textContent = data[2].price
-    })
+                            structureProduits += `     
+                        <a href="produit.html?${_id[i]}" id="link">    
+                            <div class="card" style="width: 18rem">                            
+                                <img src="${imageUrl[i]}" class="card-img-top" />
+                            <div class="card-body">
+                                <h5 class="card-title">${name[i]}</h5>
+                                <p class="card-text">${description[i]}</p>
+                                <p class="card-price">${price[i]}</p>
+                                <a href="produit.html" class="btn btn-primary">Commander</a>
+                            </div>                            
+                            </div>
+                        </a>
+                            `;
+                            positionElement.innerHTML = structureProduits
+                        }
 
-fetch ('http://localhost:3000/api/teddies')
-    .then ( res=> res.json())
-    .then (data=> { 
-        name3.textContent = data[3].name ;
-        img3.src = data[3].imageUrl;
-        description3.textContent = data[3].description
-        price3.textContent = data[3].price
-    })
+                    console.log(_id);
+                }
 
-fetch ('http://localhost:3000/api/teddies')
-    .then ( res=> res.json())
-    .then (data=> { 
-        name4.textContent = data[4].name ;
-        img4.src = data[4].imageUrl;
-        description4.textContent = data[4].description
-        price4.textContent = data[4].price
-    })
+                affichageProduits(response)
 
-
-// fetch ('http://localhost:3000/api/teddies')
-//     .then (res=> res.json())
-//     .then (data => console.log(data))
-
-    // { 
-    //     name.textContent = data[0].name ;
-    //     img.src = data[0].imageUrl;
-    //     description.textContent = data[0].description
-    //     price.textContent = data[0].price               
-    // })
+        })
+                .catch((err) => {
+                    console.log(err);
+        });
