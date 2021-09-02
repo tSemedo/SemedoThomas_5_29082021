@@ -8,7 +8,7 @@ let i = [];
 
 const resultatApi =  fetch ('http://localhost:3000/api/teddies');
 
-        resultatApi.then(responseData)=>{    
+        resultatApi.then(async(responseData)=>{    
             const response = await responseData.json();
             
 
@@ -23,26 +23,29 @@ const resultatApi =  fetch ('http://localhost:3000/api/teddies');
                                 description[i] = element.description ;
                                 imageUrl[i] = element.imageUrl ;
                                 price[i] = element.price ;
+                                price[i] = price[i] /100 ;
                                 _id[i] = element._id ;                            
                             });
 
-                            structureProduits += `     
-                        <a href="produit.html?${_id[i]}" id="link">    
-                            <div class="card" style="width: 18rem">                            
+                            structureProduits += ` 
+                           
+                            <div class="card" style="width: 18rem"> 
+                        <a href="produit.html?${_id[i]}" class ="link">                                
                                 <img src="${imageUrl[i]}" class="card-img-top" />
                             <div class="card-body">
                                 <h5 class="card-title">${name[i]}</h5>
                                 <p class="card-text">${description[i]}</p>
-                                <p class="card-price">${price[i]}</p>
-                                <a href="produit.html" class="btn btn-primary">Commander</a>
-                            </div>                            
+                                <p class="card-price">${price[i]},00 EUR</p>
+                                <a href="produit.html?${_id[i]}" class="btn btn-primary">Commander</a>
+                            </div> 
+                        </a>                               
                             </div>
-                        </a>
+                        
                             `;
                             positionElement.innerHTML = structureProduits
                         }
 
-                    console.log(_id);
+                    console.log(response);
                 }
 
                 affichageProduits(response)

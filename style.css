@@ -14,9 +14,13 @@ img {
 i {
     font-size: 20px;
 }
-#link {
+.link, .btn-back {
     text-decoration: none;
     color: black;
+}
+.link:hover, .btn-back:hover {
+
+    color:black;
 }
 
 section {
