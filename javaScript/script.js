@@ -31,7 +31,7 @@ const resultatApi =  fetch ('http://localhost:3000/api/teddies');
                            
                             <div class="card" style="width: 18rem"> 
                         <a href="produit.html?${_id[i]}" class ="link">                                
-                                <img src="${imageUrl[i]}" class="card-img-top" />
+                                <img src="${imageUrl[i]}" class="card-img-top imgMenu" />
                             <div class="card-body">
                                 <h5 class="card-title">${name[i]}</h5>
                                 <p class="card-text">${description[i]}</p>
