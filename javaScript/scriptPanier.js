@@ -1,5 +1,5 @@
 let produitAddLocalStorage = JSON.parse(localStorage.getItem("products"));
-console.log(produitAddLocalStorage.length);
+console.log(produitAddLocalStorage);
 // const products = produitAddLocalStorage;
 
 // selection du dom 
@@ -7,17 +7,27 @@ const positionElement_panier = document.querySelector(".il_panier");
 
     for (let k in produitAddLocalStorage) {
 
+        // if (produitAddLocalStorage[k].quantite > 1) {
+
+        //     var quantiterAmultiplier = [];
+        //     quantiterAmultiplier = produitAddLocalStorage[k].quantite; 
+        //         console.log(quantiterAmultiplier);
+        //     }
         const structureProduits_page = `
         <li class="list-group-item d-flex justify-content-between align-items-start">
             <div class="ms-2 me-auto">
                 <div class="fw-bold">${produitAddLocalStorage[k].name}</div>
-                     Couleur sélectionnée : ${produitAddLocalStorage[k].colors.slice(7,-1)}
+                   <div class="contenaireChoixPanier">
+                 Couleur sélectionnée : ${produitAddLocalStorage[k].colors.slice(7,-1)}
+                Quantité séléctionnée : ${produitAddLocalStorage[k].quantite}
                 </div>
-            <span class="badge bg-primary rounded-pill priceProduit_panier">${produitAddLocalStorage[k].price /100},00 EUR</span>
+                </div>
+               
+            <span class="badge bg-primary rounded-pill ">${produitAddLocalStorage[k].price/100},00 EUR</span>
         </li>
         `;
-    positionElement_panier.innerHTML += structureProduits_page
-//    prixTotal.innerHTML = produitAddLocalStorage[k].price
+    positionElement_panier.innerHTML += structureProduits_page;
+
 }
 // Mise en Place  calcul total panier
     let prixTotalCalcul = []; 
@@ -193,7 +203,7 @@ const positionElement_panier = document.querySelector(".il_panier");
                     .catch((error) => {
                         console.error('Error:', error);
                       });
-                      
+
                 event.preventDefault( );
                 // event.stopPropagation( );
                 

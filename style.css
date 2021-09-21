@@ -1,11 +1,12 @@
 body {
-    background: rgba(196, 236, 184, 0.678);
+ 
+background: linear-gradient(158deg, rgba(251,123,63,0.9388349089635855) 0%, rgba(94,70,252,1) 100%);
 }
 #bodyConfirmation {
     background: rgb(241, 233, 233);
 }
 .container-footer {
-    background: rgb(196, 236, 184);
+    background: #5e46fc9a;
     box-shadow: 1px 1px 5px 5px rgba(0,0,0,0.54);
 }
 .card {
@@ -51,7 +52,7 @@ section {
     justify-content: center;
     padding: 1px;
     width: 25px;
-    background: rgb(240, 0, 0);
+    background: #00d4ff;
     border-radius: 20px;
     zoom: 80%;
 }
@@ -74,4 +75,14 @@ section {
 .orderId {     
     background: linear-gradient(90deg, rgba(251,123,63,0.9388349089635855) 6%, rgba(94,70,252,1) 88%);
     padding: 0px 2px;
+}
+.navOpacity {
+    background: #fb7a3f60;
+    
+}
+.btnPerso {
+    background: radial-gradient(circle, rgba(238,174,202,1) 10%, rgba(94,70,252,1) 120%);
+}
+.contenaireChoixPanier {
+    max-width: 240px;
 }

@@ -34,8 +34,21 @@ const resultatApi_Produit = fetch (`http://localhost:3000/api/teddies/${id_produ
                 </p>
             </form>
 
+            <form>
+            <p>
+            <label for="quantites">Combien en voulez vous ?</label><br />
+                <select name="quantite" id="quantite" class="groupeQuantite">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                </select>
+            </p>
+        </form>
+
             <p class="card-text"><small class="text-muted">${response_page.price/100},00 EUR</small></p>
-            <button type="button" class="btn btn-outline-success" id="btn_send">Ajoutez au Panier</button>
+            <button type="button" class="btn btnPerso" id="btn_send">Ajoutez au Panier</button>
             </div>
             </div>
             `;
@@ -59,10 +72,11 @@ const resultatApi_Produit = fetch (`http://localhost:3000/api/teddies/${id_produ
                     const positionElement_colors = document.querySelector('.groupeColors');
                     positionElement_colors.innerHTML = structureOptions;
 
-                    console.log(response_page);
+                    // console.log(response_page);
 
         // selection dans le dom pour recuperer reponse de l'utilisateur 
             const idForm = document.querySelector("#colors")    
+            const quantProduit = document.querySelector("#quantite")    
             const sendPanier = document.querySelector("#btn_send")
 
     // ecoute de l'evenement au click
@@ -70,6 +84,8 @@ const resultatApi_Produit = fetch (`http://localhost:3000/api/teddies/${id_produ
             event.preventDefault();
 
         const choixForm = idForm.value; 
+        const choixQuantite = quantProduit.value; 
+
         
 
             let optionProduit = {
@@ -77,8 +93,8 @@ const resultatApi_Produit = fetch (`http://localhost:3000/api/teddies/${id_produ
             name :  response_page.name,
             _id : response_page._id,
             colors : choixForm,
-            quantite : 1,
-            price : response_page.price ,
+            quantite : choixQuantite,
+            price : response_page.price * choixQuantite ,
 
             }
                       

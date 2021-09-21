@@ -36,7 +36,7 @@ const resultatApi =  fetch ('http://localhost:3000/api/teddies');
                                 <h5 class="card-title">${name[i]}</h5>
                                 <p class="card-text">${description[i]}</p>
                                 <p class="card-price">${price[i]},00 EUR</p>
-                                <a href="produit.html?${_id[i]}" class="btn btn-primary">Commander</a>
+                                <a href="produit.html?${_id[i]}" class="btn btnPerso">Commander</a>
                             </div> 
                         </a>                               
                             </div>
