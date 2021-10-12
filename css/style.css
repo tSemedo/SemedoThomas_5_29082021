@@ -1,0 +1,93 @@
+/* body {
+ 
+background: linear-gradient(158deg, rgba(251,123,63,0.9388349089635855) 0%, rgba(94,70,252,1) 100%);
+} */
+#bodyConfirmation {
+    background: rgb(241, 233, 233);
+}
+.container-footer {
+    background: #5e46fc9a;
+    box-shadow: 1px 1px 5px 5px rgba(0,0,0,0.54);
+}
+.card {
+    margin: 20px 0px;
+} 
+.imgMenu {
+    height: 190px;
+}
+#imgBg {
+    width: 100%;
+}
+i {
+    font-size: 27px;
+}
+.link, .btn-back {
+    text-decoration: none;
+    color: black;
+}
+.link:hover, .btn-back:hover {
+
+    color:black;
+}
+
+section {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+       
+}
+#section_panier {
+    display: block;
+    margin-top: 25px;
+}
+#numbrePanier {
+    position: absolute;
+    top: 18px;
+    right: 9px;
+    font-family: cursive;
+    font-size:larger ;
+    display: flex;
+    justify-content: center;
+    padding: 1px;
+    width: 25px;
+    background: #00d4ff;
+    border-radius: 20px;
+    zoom: 80%;
+}
+.priceProduit_panier {
+    margin-top: 15px;
+}
+.priceProduit_panierTotal {
+    margin-left: 70px;    
+   
+   
+}
+.card-title { 
+    display: flex;
+    justify-content: center;
+}
+
+.numberVisible {
+    visibility: hidden;
+}
+.orderId {     
+    background: linear-gradient(90deg, rgba(251,123,63,0.9388349089635855) 6%, rgba(94,70,252,1) 88%);
+    padding: 0px 2px;
+}
+.navOpacity {
+    background: #fb7a3f60;
+    
+}
+.btnPerso {
+    background: radial-gradient(circle, rgba(238,174,202,1) 10%, rgba(94,70,252,1) 120%);
+}
+.contenaireChoixPanier {
+    max-width: 245px;
+}
+.txtErrorServeur {
+    margin: 60px;
+    padding: 20px;
+    border: 1px solid black;
+}

@@ -1,53 +1,50 @@
 let produitAddLocalStorage = JSON.parse(localStorage.getItem("products"));
 console.log(produitAddLocalStorage);
-// const products = produitAddLocalStorage;
 
-// selection du dom 
-const positionElement_panier = document.querySelector(".il_panier");
+      function affichageProduitAddInCard() {
+        // selection du dom 
+          const positionElement_panier = document.querySelector(".il_panier");
 
-    for (let k in produitAddLocalStorage) {
+            for (let k in produitAddLocalStorage) {
 
-        // if (produitAddLocalStorage[k].quantite > 1) {
+                const structureProduits_page = `
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">${produitAddLocalStorage[k].name}</div>
+                          <div class="contenaireChoixPanier">
+                        Couleur sélectionnée : ${produitAddLocalStorage[k].colors.slice(7,-1)}
+                        Quantité séléctionnée : ${produitAddLocalStorage[k].quantite}
+                        </div>
+                        </div>
+                      
+                    <span class="badge bg-primary rounded-pill ">${produitAddLocalStorage[k].price/100},00 EUR</span>
+                </li>
+                `;
+            positionElement_panier.innerHTML += structureProduits_page;
 
-        //     var quantiterAmultiplier = [];
-        //     quantiterAmultiplier = produitAddLocalStorage[k].quantite; 
-        //         console.log(quantiterAmultiplier);
-        //     }
-        const structureProduits_page = `
-        <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div class="ms-2 me-auto">
-                <div class="fw-bold">${produitAddLocalStorage[k].name}</div>
-                   <div class="contenaireChoixPanier">
-                 Couleur sélectionnée : ${produitAddLocalStorage[k].colors.slice(7,-1)}
-                Quantité séléctionnée : ${produitAddLocalStorage[k].quantite}
-                </div>
-                </div>
-               
-            <span class="badge bg-primary rounded-pill ">${produitAddLocalStorage[k].price/100},00 EUR</span>
-        </li>
-        `;
-    positionElement_panier.innerHTML += structureProduits_page;
+            }
+      }
+      affichageProduitAddInCard() ;
 
-}
-// Mise en Place  calcul total panier
-    let prixTotalCalcul = []; 
+               // Mise en Place  calcul total panier
+            let prixTotalCalcul = []; 
 
-    for (let m = 0; m <produitAddLocalStorage.length; m++ ) {
-        let prixProduitsDansPanier = produitAddLocalStorage[m].price;
+            for (let m = 0; m <produitAddLocalStorage.length; m++ ) {
+                let prixProduitsDansPanier = produitAddLocalStorage[m].price;
+                prixTotalCalcul.push(prixProduitsDansPanier);
+              }
 
-        prixTotalCalcul.push(prixProduitsDansPanier);
-        // console.log(prixTotalCalcul);
-    }
+            const reducer = (accumulator, currentValue) => accumulator + currentValue; 
+            const prixTotal = prixTotalCalcul.reduce(reducer,0);
+            const affichagePrixTotal  = `
+          TOTAL PRODUITS TTC :<span class="badge bg-primary rounded-pill priceProduit_panierTotal">${prixTotal/100},00 EUR</span>`;
+        
+         // injection dans le dom
+            const positionElement_prix = document.querySelector(".card-title");
+            positionElement_prix.innerHTML = affichagePrixTotal;
+   
+      
 
-    const reducer = (accumulator, currentValue) => accumulator + currentValue; 
-    const prixTotal = prixTotalCalcul.reduce(reducer,0);
-
- const affichagePrixTotal  = `
-  TOTAL PRODUITS TTC :<span class="badge bg-primary rounded-pill priceProduit_panierTotal">${prixTotal/100},00 EUR</span>`;
-// injection dans le dom
- const positionElement_prix = document.querySelector(".card-title");
- positionElement_prix.innerHTML = affichagePrixTotal; 
- 
 
 // -------------------------ADD EVENT LISTENER qui fait apparaitre le formulaire--------------
 
@@ -125,20 +122,20 @@ const positionElement_panier = document.querySelector(".il_panier");
    
 
     
-    <div class="col-12">
+    <div class="col-12 numberVisible">
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
         <label class="form-check-label" for="invalidCheck">
-          Agree to terms and conditions
+          Vous avez confirmer de l'exactitude des informations ci-dessus
         </label>
         <div class="invalid-feedback">
-          You must agree before submitting.
+          Vous devez confirmer de l'exactitude des informations ci-dessus avant d'envoyer votre commande
         </div>
       </div>
     </div>
    
     <div class="col-12">
-      <button class="btn btn-primary" type="submit">Submit form</button>
+      <button class="btn btn-primary" type="submit">Envoyer votre commande</button>
     </div>
   </form>
     `
@@ -150,78 +147,139 @@ const positionElement_panier = document.querySelector(".il_panier");
     {
         form.addEventListener("submit", function( event)
         {
-            if (!form.checkValidity())
-            { 
-                // recuper les valeurs du formulaires 
-                let productsAcheter = [];              
-                
+            if (!form.checkValidity()) {                 
+            
+                function controlAndSendToAPI() {  
 
-                for ( let y=0; y < produitAddLocalStorage.length ; y++) {
+                        // recuper les valeurs du formulaires 
+                        let productsAcheter = [];        
+                        
+                        for ( let y=0; y < produitAddLocalStorage.length ; y++) {
 
-                    productsAcheter.push(produitAddLocalStorage[y]._id);
-                }
-                console.log(productsAcheter);
+                            productsAcheter.push(produitAddLocalStorage[y]._id);
+                        }
+                      
+                        let inputName = document.querySelector("#prenom");
+                        let inputLastName = document.querySelector("#nom");
+                        let inputAddress = document.querySelector("#nomDeRue");
+                        let inputCity = document.querySelector("#ville");
+                        let inputEmail = document.querySelector("#email");
+                        let inputNumber = document.querySelector("#numeroDeRue");
+                        // let inputCache = document.querySelector("#invalidCheck");
+                        
 
-                let inputName = document.querySelector("#prenom");
-                let inputLastName = document.querySelector("#nom");
-                let inputAddress = document.querySelector("#nomDeRue");
-                let inputCity = document.querySelector("#ville");
-                let inputEmail = document.querySelector("#email");
+                        const order = {
+                            contact: {
+                            firstName: inputName.value,
+                            lastName: inputLastName.value,
+                            city: inputCity.value,
+                            address: inputAddress.value,                    
+                            email: inputEmail.value
+                            },
+                            products: productsAcheter,
+                            };
+              // -----------------------------------Regex-------------------------------------------                
 
-                const order = {
-                    contact: {
-                    firstName: inputName.value,
-                    lastName: inputLastName.value,
-                    city: inputCity.value,
-                    address: inputAddress.value,                    
-                    email: inputEmail.value
-                    },
-                    products: productsAcheter,
-                    };
+                        function controlePrenom() {
+                            const checkPrenom = order.contact.firstName;
+                                if (/^(?!.*'[A-Za-z]+')\s*[A-Z]+(?:['-]?[a-z]+)*(?:\s*[a-z]*)*$/.test(checkPrenom)) {
+                                      return true;
+                                } else {
+                                      alert("Vous devez ajouter une majuscule et de pas ajouter de caratere spéciaux\n LE PRENOM");
+                                      return false;
+                                };                      
+                        }
 
-                console.log("order");
-                console.log(order);
+                        function controleNom() {
+                          const checkNom = order.contact.lastName;
+                              if (/^(?!.*'[A-Za-z]+')\s*[A-Z]+(?:['-]?[a-z]+)*(?:\s*[a-z]*)*$/.test(checkNom)) {
+                                    return true;
+                              } else {
+                                    alert("Vous devez ajouter une majuscule et de pas ajouter de caratere spéciaux\n LE NOM");
+                                    return false;
+                              };                      
+                        }
+
+                        function controleNomDeRue() {
+                          const checkNomDeRue = order.contact.address;
+                              if (/^([a-zA-Z]+( [a-zA-Z]{3,16})+( [a-zA-Z]{2,20})+)$/.test(checkNomDeRue)) {
+                                    return true;
+                              } else {
+                                    alert("Vous devez ajouter une majuscule et de pas ajouter de caratere spéciaux\n NOM DE RUE");
+                                    return false;
+                              };                      
+                        }  
+
+                        function controleVille() {
+                          const checkVille = order.contact.city;
+                              if (/^[a-zA-Z]+(?:(?:\\s+|-)[a-zA-Z]+)*$/.test(checkVille)) {
+                                    return true;
+                              } else {
+                                    alert("Vous devez ajouter une majuscule et de pas ajouter de caratere spéciaux\n VILLE");
+                                    return false;
+                              };                      
+                        }
+
+                        function controleEmail() {
+                          const checkEmail = order.contact.email;
+                              if (/^[-!#-'*+\/-9=?^-~]+(?:\.[-!#-'*+\/-9=?^-~]+)*@[-!#-'*+\/-9=?^-~]+(?:\.[-!#-'*+\/-9=?^-~]+)+$/.test(checkEmail)) {
+                                    return true;
+                              } else {
+                                    alert("Vous devez ajouter une majuscule et de pas ajouter de caratere spéciaux\n EMAIL");
+                                    return false;
+                              };                      
+                        }  
+                        
+                        function controleNumber() {
+                          const checkNumber = inputNumber.value;
+                              if (/^[1-9]{1,200}$/.test(checkNumber)) {
+                                    return true;
+                              } else {
+                                    alert("Vous devez ajouter une majuscule et de pas ajouter de caratere spéciaux\n NUMBER");
+                                    console.log(inputNumber.value);
+                                    return false;
+                              };                      
+                        }
+
+              // ---------------------------regex-----------------------------                
                 // localStorage.setItem("contact", JSON.stringify(order))
+                  if (controlePrenom() && controleNom() && controleEmail() && controleNumber() && controleNomDeRue() && controleVille()) {
 
-                // envoyer objet "formulaireValues" dans local storage
-                
-                    const options = { 
-                        method: "POST",
-                        body: JSON.stringify(order), 
-                        headers: {  "Content-Type": "application/json"  },
-                    }
-                    
-                    fetch("http://localhost:3000/api/teddies/order",options)
+                              const options = { 
+                              method: "POST",
+                              body: JSON.stringify(order), 
+                              headers: {  "Content-Type": "application/json"  },
+                              }
+                            
+                        fetch("http://localhost:3000/api/teddies/order",options)
 
-                    .then((response) => response.json())
-                    .then((data) => { 
-                        localStorage.clear();
-                        localStorage.setItem("orderId", data.orderId);
-                        localStorage.setItem("totalPrix", prixTotal);
-                        document.location.href = "confirmation.html";
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                      });
+                        .then((response) => response.json())
+                        .then((data) => { 
+                              localStorage.clear();
+                              localStorage.setItem("orderId", data.orderId);
+                              localStorage.setItem("totalPrix", prixTotal);
+                              document.location.href = "confirmation.html";
+                        })
+                        .catch((error) => {
+                              console.error('Error:', error);
+                          });
 
-                event.preventDefault( );
-                // event.stopPropagation( );
-                
-            }
-            // form.classList.add( "was-validated");
-            console.log("");
-            }, false );
+                  } else {
+
+                  };                
+
+                        event.preventDefault( );
+                        // event.stopPropagation( );
+                        
+                }            
+                controlAndSendToAPI();
+
+            form.classList.add( "was-validated");
+          }
+          
+          }, false );
     });
 
 
 
     });
-    
-
-
-
-//  regex
-
-//  envoi dans local storage 
-
-// fetch post 

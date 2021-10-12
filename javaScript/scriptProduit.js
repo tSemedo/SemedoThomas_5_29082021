@@ -3,22 +3,28 @@ const string_url_id = window.location.search ;
 // Utilisation methode .slice pour elever le ? de l'id
 const id_produit = string_url_id.slice(1);
 
-
-
-
-
 // Mettre dans une const la reponse du server obtenu avec fetch et http://.../${id}
 const resultatApi_Produit = fetch (`http://localhost:3000/api/teddies/${id_produit}`);
-
 // Json()
     resultatApi_Produit.then (async(responseData_page) => {
         const response_page = await responseData_page.json();
 
+// test unitaire de la reponse API
+    const testResponseData = () => {
+    const testResData = responseData_page.ok;
+    if (testResData !== true ) {
+    console.error('Echec de reponse API-Probleme Id');
+    const testtete = document.querySelector("#section_page")
+    testtete.removeChild;
+    }
+    }
+    testResponseData ();
+// test unitaire de la reponse-------FIN
 
         // selection du dom receveur
             const positionElement_page = document.querySelector("#section_page");
-        // création html full auto 
-            const structureProduits_page = `
+        // Injection dans html
+            positionElement_page.innerHTML = `
             <div class="card mb-3">
             <img src="${response_page.imageUrl}" class="card-img-top">
             <div class="card-body">
@@ -51,79 +57,80 @@ const resultatApi_Produit = fetch (`http://localhost:3000/api/teddies/${id_produ
             <button type="button" class="btn btnPerso" id="btn_send">Ajoutez au Panier</button>
             </div>
             </div>
-            `;
-        // Injection dans html
-            positionElement_page.innerHTML = structureProduits_page ;     
-            
+            `;              
+                function formulaireAuto() {
+                    // le formulaire FULL AUTO 
+                        const colorsProduits = response_page.colors ;
+                        let structureOptions = [];           
 
-        // le formulaire FULL AUTO 
-            const colorsProduits = response_page.colors ;
-            let structureOptions = [];   
-        
+                        // boucle for pour afficher chaque couleur 
+                            for (let j=0;j < colorsProduits.length ; j++) {  
 
-                // boucle for pour afficher chaque couleur 
-                    for (let j=0;j < colorsProduits.length ; j++) {  
-
-                        structureOptions += `
-                        <option value="colors[${colorsProduits[j]}]">${response_page.colors[j]}</option>
-                        ` ;         
-                    }
-                    // Injection dans le dom 
-                    const positionElement_colors = document.querySelector('.groupeColors');
-                    positionElement_colors.innerHTML = structureOptions;
-
-                    // console.log(response_page);
+                                structureOptions += `
+                                <option value="colors[${colorsProduits[j]}]">${response_page.colors[j]}</option>
+                                ` ;         
+                            }
+                            // Injection dans le dom 
+                            const positionElement_colors = document.querySelector('.groupeColors');
+                            positionElement_colors.innerHTML = structureOptions;
+                };
+                formulaireAuto();
 
         // selection dans le dom pour recuperer reponse de l'utilisateur 
             const idForm = document.querySelector("#colors")    
             const quantProduit = document.querySelector("#quantite")    
             const sendPanier = document.querySelector("#btn_send")
 
-    // ecoute de l'evenement au click
-        sendPanier.addEventListener("click", (event)=>{
-            event.preventDefault();
+        // ecoute de l'evenement au click
+            sendPanier.addEventListener("click", (event)=>{
+                event.preventDefault();
 
-        const choixForm = idForm.value; 
-        const choixQuantite = quantProduit.value; 
+                const choixForm = idForm.value; 
+                const choixQuantite = quantProduit.value;            
 
-        
+                let optionProduit = {
 
-            let optionProduit = {
+                name :  response_page.name,
+                _id : response_page._id,
+                colors : choixForm,
+                quantite : choixQuantite,
+                price : response_page.price * choixQuantite ,
 
-            name :  response_page.name,
-            _id : response_page._id,
-            colors : choixForm,
-            quantite : choixQuantite,
-            price : response_page.price * choixQuantite ,
+                }
 
+            // -----------Localstrorage-------------------
+            let produitAddLocalStorage = JSON.parse(localStorage.getItem("products"));
+            const ajout_produitAdd = ()=> {
+                produitAddLocalStorage.push(optionProduit);
+                localStorage.setItem("products",JSON.stringify(produitAddLocalStorage));
             }
-                      
-       console.log(optionProduit);
-
-        // -----------Localstrorage-------------------
-        let produitAddLocalStorage = JSON.parse(localStorage.getItem("products"));
-        const ajout_produitAdd = ()=> {
-            produitAddLocalStorage.push(optionProduit);
-            localStorage.setItem("products",JSON.stringify(produitAddLocalStorage));
-        }
-// s'il y a deja des produit dans localstorage
-         if (produitAddLocalStorage) { 
-            ajout_produitAdd(); 
-         }
-// s'il n'y a pas de produit dans localstorage
-         else { produitAddLocalStorage = [];
-            localStorage.clear();
-            ajout_produitAdd(); 
-         }
-
- });
-
-
-    })
-    .catch((err) => {
-        console.log(err);
+   
+                function sendLocalStorage() {              
+                    // s'il y a deja des produit dans localstorage
+                    if (produitAddLocalStorage) { 
+                        ajout_produitAdd(); 
+                    }
+                    // s'il n'y a pas de produit dans localstorage
+                    else { produitAddLocalStorage = [];
+                        localStorage.clear();
+                        ajout_produitAdd(); 
+                    }
+                    location.reload();
+                }
+                    sendLocalStorage();
     });
 
 
-    
-    
+
+
+
+
+    })   
+        .catch((err) => {
+            const errorServeur1 = document.querySelector("#section_page")
+            errorServeur1.innerHTML  = `<h2 class="txtErrorServeur">Vérifier que le serveur local est lancé (Port 3000)</h2>`;
+            console.error("Vérifier que le serveur local est lancé (Port 3000)");
+            console.log(err);
+    });
+
+ 

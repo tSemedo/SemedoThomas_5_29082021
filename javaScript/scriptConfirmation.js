@@ -13,8 +13,4 @@ function recupereIdInLS() {
 
     totalConfirmation.innerHTML = TotalPrix/100;
     orderIdTotal.innerHTML = IdOrder;
- 
-
-
-   
   }
